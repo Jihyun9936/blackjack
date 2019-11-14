@@ -52,13 +52,13 @@ void offerCards(void) {
 //print initial card status
 void printCardInitialStatus(void) {
 	int i, j;
-	printf("--> server : X ");
+	printf("\n--> server : X ");
 	printCard(cardhold[n_user][1]);
-	printf("--> you    : ");
+	printf("\n--> you    : ");
 	for (i=0; i<2; i++)
 		printCard(cardhold[0][i]);
 	for(i=1; i < n_user; i++){
-		printf(" --> player%d : ", i);
+		printf("\n--> player%d : ", i);
 		for (j=0; j<2; j++)
 			printCard(cardhold[i][j]);
 		printf("\n");

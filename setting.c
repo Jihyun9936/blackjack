@@ -8,6 +8,7 @@
 
 //card tray object
 int CardTray[N_CARDSET*N_CARD];
+int dollar[N_MAX_USER];		
 int cardIndex;
 int n_user;						
 
@@ -16,11 +17,20 @@ int n_user;
 
 //player settiing
 int configUser(void) {
-	while((n_user > 0) && (n_user <= N_MAX_USER)){
+	int i;
+	while(1){
 		printf("Input the number of the players(MAX : 5) : ");
 		scanf("%d", &n_user); 
+		if ((n_user > 0) && (n_user <= N_MAX_USER)){
+			break;
+		}
+		else 
+			printf("unappropriate number. input again.\n");
 	}
-	printf("unappropriate number. input again.\n");
+	
+	for(i=0; i < n_user; i++)
+		dollar[i] = 50;
+		
 	return n_user;
 }
 
