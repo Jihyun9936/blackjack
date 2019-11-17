@@ -1,24 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "bj.h"
 
-#define N_MAX_USER			5
-#define N_MAX_CARDHOLD		10
-#define N_CARDSET			1
-#define N_CARD				52
+int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players hold
+int cardSum[N_MAX_USER];							//sum of the cards
+int n_user;										//number of users
+int roundIndex;								//
+int bet[N_MAX_USER];								//current betting 
+int dollar[N_MAX_USER];							//dollars that each player has
+int cardcnt[N_MAX_USER];							//
 
-int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD], dollar[N_MAX_USER];
-int cardSum[N_MAX_USER], bet[N_MAX_USER], cardSum[N_MAX_USER];
-int turn, n_user, roundIndex;
 
 // calculate the card sum and see if : 1. under 21, 2. over 21, 3. blackjack
-int calcStepResult() {
+int calcStepResult(turn) {
 	int temp, j; 
-	int num, sum=0;
-	for(j=0; cardhold[turn][j]!='0'; j++){
-			temp = cardhold[turn][j];
+	int sum = 0;
+	for(j=0; j < cardcnt[turn]; j++){
+			temp = getCardNum(cardhold[turn][j]);
 			sum += temp;
 	}
-		sum = cardSum[turn];
+	cardSum[turn] = sum;
+	return sum;
 }
 
 int checkResult() {
@@ -50,7 +52,7 @@ int checkResult() {
 
 int checkWinner() {
 	int i, max = -100, winner;
-	for (i=0; i<=n_user; i++){
+	for (i=0; i <= n_user; i++){
 		if (max < cardSum[i]){
 			max = cardSum[i];
 			winner = i;

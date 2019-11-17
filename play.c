@@ -1,34 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "bj.h"
 
-#define N_MAX_USER			5
-#define N_MAX_CARDHOLD		10
-
-//play yard information
-int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];	
-int cardSum[N_MAX_USER];					
-int bet[N_MAX_USER];
-int dollar[N_MAX_USER];	
-int cardnum, n_user,turn; 
-int cardcnt[N_MAX_USER];
-int gameEnd; 
-
-//playing game functions -----------------------------
-
-//betting
-int betDollar(void) {
-	int i, mybet;
-	printf("------------------------BETTING STEP--------------------------\n");
-	printf(" -> your betting (total : $%d): ", dollar[0]);
-	scanf("%d", &mybet);
-	bet[i] = mybet;
-	for(i=1; i<n_user-1; i++){
-		srand((unsigned int)time(NULL));
-		bet[i] = (rand()/5)+1;
-		printf(" -> player%d bets $%d (out of $%d)\n", i, bet[i], dollar[i]);
-	}
-	return 0;
-}
+int n_user;										//number of users 
+int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players hold
+int cardcnt[N_MAX_USER];							//
+int turn;										//turn of the players
+int cardSum[N_MAX_USER];							//sum of the cards
+int gs[N_MAX_USER];								//
+int gameEnd;		 								//game end flag
+int cardnum;										//the actual number of the card 
 
 //offering initial 2 cards
 void offerCards(void) {
@@ -66,45 +47,47 @@ void printCardInitialStatus(void) {
 	return;
 }
 
-int getAction(void) {
-	int gs;
+int getAction(int turn) {
 	if (turn == 0){
 		printf("Action? (0 - go, others - stay) : ");
 		scanf("%d", &gs);
 	}
 	else{
-		if (cardSum[turn]<17)
-			gs = 0;
+		if (cardSum[turn] < 17)
+			gs[turn] = 0;
 		else 
-			gs = 1;
+			gs[turn] = 1;
 	}
-	if(gs == 0){
-		cardcnt[0]++;
-		printf("\t::: GO!\n");
+	if(gs[turn] == 0){
+		cardcnt[turn]++;
+		printf("::: GO!\n");
+		cardhold[turn][cardcnt[turn]] = pullCard();
 		gameEnd = 0;
 	}
 	else {
-		printf("\t::: STAY!\n");
+		printf("::: STAY!\n");
+		
 		gameEnd = 1;
 	}
 	return gameEnd;
 }
 
-// cardcnt : what does it mean?
-void printUserCardStatus(int n_user, int cardcnt) {
+// cardcnt : 현재 플레이어들이 가지고 있는 카드의 장수 
+void printUserCardStatus(int n_user) {
 	int i;
 	printf("  -> card : ");
-	for (i=0; i < cardcnt; i++)
-		printCard(cardhold[n_user][i]);
+	for (i=0; i < cardcnt[turn]; i++){
+		printCard(cardhold[turn][i]);
+		printf(" ");
+	}
 	printf("\t ::: "); 
-	getAction();
 	return;
 }
 
 //card processing functions ---------------
 
 //calculate the actual card number in the blackjack game
-int getCardNum(int turn) {
+int getCardNum(int cardnum) {
 	int num;
 	switch(cardnum % 13){
 		case 1 : 
@@ -127,7 +110,7 @@ int getCardNum(int turn) {
 
 //print the card information (e.g. DiaA)
 void printCard(int cardnum) {
-	switch (cardnum / 13 / 4){
+	switch (cardnum / 13){
 		case 0 : printf("HRT"); break;
 		case 1 : printf("DIA"); break;
 		case 2 : printf("SPD"); break;
@@ -141,6 +124,7 @@ void printCard(int cardnum) {
 		case 12 : printf("J"); break;
 		case 0 : printf("K"); break;
 	}
+	printf(" ");
 }
 
 
