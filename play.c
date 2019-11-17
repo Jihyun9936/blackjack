@@ -4,10 +4,10 @@
 
 int n_user;										//number of users 
 int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players hold
-int cardcnt[N_MAX_USER];							//
+int cardcnt;							//
 int turn;										//turn of the players
 int cardSum[N_MAX_USER];							//sum of the cards
-int gs[N_MAX_USER];								//
+int gs;								//
 int gameEnd;		 								//game end flag
 int cardnum;										//the actual number of the card 
 
@@ -20,12 +20,12 @@ void offerCards(void) {
 	{
 		cardhold[i][0] = pullCard();
 		cardhold[i][1] = pullCard();
-		cardcnt[i]+=2;
+		cardcnt+=2;
 	}
 	//2. give two card for the operator
 	cardhold[n_user][0] = pullCard();
 	cardhold[n_user][1] = pullCard();
-	cardcnt[n_user]+=2;
+	cardcnt+=2;
 	
 	return;
 }
@@ -49,19 +49,19 @@ void printCardInitialStatus(void) {
 
 int getAction(int turn) {
 	if (turn == 0){
-		printf("Action? (0 - go, others - stay) : ");
+		printf("\nAction? (0 - go, others - stay) : ");
 		scanf("%d", &gs);
 	}
 	else{
 		if (cardSum[turn] < 17)
-			gs[turn] = 0;
+			gs = 0;
 		else 
-			gs[turn] = 1;
+			gs = 1;
 	}
-	if(gs[turn] == 0){
-		cardcnt[turn]++;
+	if(gs == 0){
+		cardcnt++;
 		printf("::: GO!\n");
-		cardhold[turn][cardcnt[turn]] = pullCard();
+		cardhold[turn][cardcnt] = pullCard();
 		gameEnd = 0;
 	}
 	else {
@@ -72,11 +72,11 @@ int getAction(int turn) {
 	return gameEnd;
 }
 
-// cardcnt : 현재 플레이어들이 가지고 있는 카드의 장수 
-void printUserCardStatus(int n_user) {
+// print the cards players have
+void printUserCardStatus(int turn) {
 	int i;
 	printf("  -> card : ");
-	for (i=0; i < cardcnt[turn]; i++){
+	for (i=0; i < cardcnt; i++){
 		printCard(cardhold[turn][i]);
 		printf(" ");
 	}

@@ -11,7 +11,7 @@ int bet[N_MAX_USER];								//current betting
 int dollar[N_MAX_USER];							//dollars that each player has
 int n_user;										//number of users
 int cardnum;										//the actual number of the card 
-int cardcnt[N_MAX_USER];							//
+int cardcnt;							//
 
 //player settiing
 int configUser(void) {
@@ -67,6 +67,6 @@ int mixCardTray(void) {
 int pullCard(void) {
 	cardnum = CardTray[cardIndex];
 	cardIndex--;
-	cardcnt[turn]++;
+	cardcnt++;
 	return cardnum;
 }

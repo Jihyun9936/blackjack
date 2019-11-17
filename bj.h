@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #define N_CARDSET			1
 #define N_CARD				52
 #define N_DOLLAR			50

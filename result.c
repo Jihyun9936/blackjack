@@ -8,14 +8,14 @@ int n_user;										//number of users
 int roundIndex;								//
 int bet[N_MAX_USER];								//current betting 
 int dollar[N_MAX_USER];							//dollars that each player has
-int cardcnt[N_MAX_USER];							//
+int cardcnt;							//
 
 
 // calculate the card sum and see if : 1. under 21, 2. over 21, 3. blackjack
-int calcStepResult(turn) {
+int calcStepResult(int turn) {
 	int temp, j; 
 	int sum = 0;
-	for(j=0; j < cardcnt[turn]; j++){
+	for(j=0; j < cardcnt; j++){
 			temp = getCardNum(cardhold[turn][j]);
 			sum += temp;
 	}
