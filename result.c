@@ -3,19 +3,19 @@
 #include "bj.h"
 
 int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players hold
-int cardSum[N_MAX_USER];							//sum of the cards
+int cardSum[N_MAX_USER];						//sum of the cards
 int n_user;										//number of users
-int roundIndex;								//
-int bet[N_MAX_USER];								//current betting 
+int roundIndex;									//
+int bet[N_MAX_USER];							//current betting 
 int dollar[N_MAX_USER];							//dollars that each player has
-int cardcnt;							//
+int cardcnt;									//
 
 
 // calculate the card sum and see if : 1. under 21, 2. over 21, 3. blackjack
 int calcStepResult(int turn) {
 	int temp, j; 
 	int sum = 0;
-	for(j=0; j < cardcnt; j++){
+	for(j=0; j < cardcnt-1; j++){
 			temp = getCardNum(turn, cardhold[turn][j]);
 			sum += temp;
 	}
@@ -27,7 +27,7 @@ int calcStepResult(int turn) {
 		printf("  -->  -$%d ($%d)", bet[turn], dollar[turn]-bet[turn]);
 	}
 	else if (sum == 21){
-		printf("Blackjack!!!  You win!!\n");
+		printf("Blackjack!!!\n");
 	}
 	return sum;
 }
@@ -35,18 +35,19 @@ int calcStepResult(int turn) {
 int checkResult() {
 	int i;
 	printf("\n-------------------- ROUND %d result ---------------------\n", roundIndex);
-	for (i=0; i < n_user-1; i++){
+	for (i=0; i < n_user; i++){
 		if(i==0)
 			printf("\n -> your result : ");
 		else
-			printf("\n -> player%d''s result : ", i);
+			printf("\n -> player%d's result : ", i);
 			
-		if (cardSum[i] < cardSum[n_user]){
+		if (cardSum[i] > 21){
+			printf("lose due to overflow! ");
+			dollar[i] -= bet[i];
+		}
+		else if (cardSum[i] < cardSum[n_user]){
 			dollar[i] -= bet[i];
 			printf("lose!  ");
-		}
-		else if (cardSum[i] > 21){
-			printf("lose due to overflow! ");
 		}
 		else 
 			printf("win! ");

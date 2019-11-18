@@ -50,15 +50,16 @@ int main() {
 				printf("\n>>>server turn! ---------------\n");
 			else
 				printf("\n>>>player %d turn! ------------\n", turn);
-				
+			
+			printUserCardStatus(turn);	
 			printf("\n");
 			
-			while (getAction(turn) == 0){	
-					printUserCardStatus(turn); //print current card status
+			 while (getAction(turn) == 0){	
+			 		printUserCardStatus(turn); //print current card status
 					calcStepResult(turn); //check the card status ::: 
 					getAction(turn); //GO? STOP? ::: 
 					//check if the turn ends or not
-			}  //do until the player dies or player says stop
+			} //do until the player dies or player says stop
 			
 			i++;
 		}

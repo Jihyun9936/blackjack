@@ -22,12 +22,10 @@ void offerCards(void) {
 	{
 		cardhold[i][0] = pullCard();
 		cardhold[i][1] = pullCard();
-		cardcnt+=2;
 	}
 	//2. give two card for the operator
 	cardhold[n_user][0] = pullCard();
 	cardhold[n_user][1] = pullCard();
-	cardcnt+=2;
 	
 	return;
 }
@@ -51,7 +49,7 @@ void printCardInitialStatus(void) {
 
 int getAction(int turn) {
 	if (turn == 0){
-		printf("\nAction? (0 - go, others - stay) : ");
+		printf("Action? (0 - go, others - stay) : ");
 		scanf("%d", &gs);
 	}
 	else{
@@ -63,7 +61,6 @@ int getAction(int turn) {
 	if(gs == 0){
 		printf("::: GO!\n");
 		cardhold[turn][cardcnt] = pullCard();
-		cardcnt++;
 		gameEnd = 0;
 	}
 	else {
@@ -77,11 +74,11 @@ int getAction(int turn) {
 void printUserCardStatus(int turn) {
 	int i;
 	printf("  -> card : ");
-	for (i=0; i < cardcnt-1; i++){
+	for (i=0; i < cardcnt; i++){
 		printCard(cardhold[turn][i]);
 		printf(" ");
 	}
-	printf("\t ::: \n"); 
+	printf("\t ::: "); 
 	return;
 }
 
@@ -92,10 +89,10 @@ int getCardNum(int turn, int cardnum) {
 	int num;
 	switch(cardnum % 13){
 		case 1 : 
-			if (cardSum[turn]+11 <= 21) {
-				num = 11; break; }
-			else {
+			if (cardSum[turn]+11 > 21) {
 				num = 1; break; }
+			else {
+				num = 11; break; }
 		case 2 : num = 2; break;
 		case 3 : num = 3; break;
 		case 4 : num = 4; break;
