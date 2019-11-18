@@ -42,34 +42,34 @@ int main() {
 		//each player's turn
 		for (turn = 0; turn <= n_user; turn++) //each player
 		{	
-			cardcnt = 0;
+			cardcnt = 2;
 			
 			if(turn == 0)
-				printf(">>>my turn! -------------------\n");
+				printf("\n>>>my turn! -------------------\n");
 			else if (turn == n_user)
-				printf(">>>server turn! ---------------\n");
+				printf("\n>>>server turn! ---------------\n");
 			else
-				printf(">>>player %d turn! ------------\n", turn);
+				printf("\n>>>player %d turn! ------------\n", turn);
 				
 			printf("\n");
 			
-			do {	printUserCardStatus(turn); //print current card status
+			while (getAction(turn) == 0){	
+					printUserCardStatus(turn); //print current card status
 					calcStepResult(turn); //check the card status ::: 
 					getAction(turn); //GO? STOP? ::: 
 					//check if the turn ends or not
-			} while (getAction(turn) == 0); //do until the player dies or player says stop
+			}  //do until the player dies or player says stop
 			
 			i++;
 		}
-		printf("[[[[[[[[server result is ... %d]]]]]]]]\n", cardSum[n_user]);
+		printf("\n[[[[[[[[server result is ... %d]]]]]]]]\n", cardSum[n_user]);
 		
 		//result
 		checkResult();
 		roundIndex++;
-	} while ((cardIndex >= 0) || (cardSum[i] == 0));
+	} while ((cardIndex >= 0) && (cardSum[i] == 0));
 	
 	checkWinner();
-	
 	
 	return 0;
 }

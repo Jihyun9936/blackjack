@@ -16,29 +16,37 @@ int calcStepResult(int turn) {
 	int temp, j; 
 	int sum = 0;
 	for(j=0; j < cardcnt; j++){
-			temp = getCardNum(cardhold[turn][j]);
+			temp = getCardNum(turn, cardhold[turn][j]);
 			sum += temp;
 	}
 	cardSum[turn] = sum;
+	
+	if (sum > 21){
+		printUserCardStatus(turn);
+		printf("DEAD (sum : %d)", cardSum[turn]);
+		printf("  -->  -$%d ($%d)", bet[turn], dollar[turn]-bet[turn]);
+	}
+	else if (sum == 21){
+		printf("Blackjack!!!  You win!!\n");
+	}
 	return sum;
 }
 
 int checkResult() {
 	int i;
-	printf("-------------------- ROUND %d result ---------------------\n", roundIndex);
-	for (i=0; i < n_user; i++){
+	printf("\n-------------------- ROUND %d result ---------------------\n", roundIndex);
+	for (i=0; i < n_user-1; i++){
 		if(i==0)
-			printf(" -> your result : ");
+			printf("\n -> your result : ");
 		else
-			printf(" -> player%d''s result : ", i);
+			printf("\n -> player%d''s result : ", i);
 			
 		if (cardSum[i] < cardSum[n_user]){
-			printf("lose! ");
 			dollar[i] -= bet[i];
+			printf("lose!  ");
 		}
 		else if (cardSum[i] > 21){
 			printf("lose due to overflow! ");
-			dollar[i] -= bet[i];
 		}
 		else 
 			printf("win! ");
@@ -58,16 +66,16 @@ int checkWinner() {
 			winner = i;
 		}
 	}
-	printf("Game End! Your money : $%d, players'' money : ", dollar[0]);
+	printf("\nGame End! Your money : $%d, players' money : ", dollar[0]);
 	for(i=1; i<n_user; i++)
 		printf("$%d", dollar[i]);
 	printf("\n\n");
 	
 	if (winner == 0){
-		printf("You win");
+		printf("\nYou win\n");
 	}
 	else {
-		printf("player %d''s win", winner);
+		printf("\nplayer %d's win\n", winner);
 	}
 	return winner;
 }

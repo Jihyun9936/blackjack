@@ -2,19 +2,21 @@
 #include <stdlib.h>
 #include "bj.h"
 
+int cardIndex;
+int CardTray[N_CARD*N_CARDSET];					//
 int n_user;										//number of users 
 int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players hold
-int cardcnt;							//
+int cardcnt;									//
 int turn;										//turn of the players
-int cardSum[N_MAX_USER];							//sum of the cards
-int gs;								//
-int gameEnd;		 								//game end flag
-int cardnum;										//the actual number of the card 
+int cardSum[N_MAX_USER];						//sum of the cards
+int gs;											//
+int gameEnd;		 							//game end flag
+int cardnum;									//the actual number of the card 
 
 //offering initial 2 cards
 void offerCards(void) {
 	int i;
-	printf("-------------------- Card Offering--------------------\n");
+	printf("\n-------------------- Card Offering--------------------\n");
 	//1. give two card for each players
 	for (i=0;i<n_user;i++)
 	{
@@ -59,14 +61,13 @@ int getAction(int turn) {
 			gs = 1;
 	}
 	if(gs == 0){
-		cardcnt++;
 		printf("::: GO!\n");
 		cardhold[turn][cardcnt] = pullCard();
+		cardcnt++;
 		gameEnd = 0;
 	}
 	else {
 		printf("::: STAY!\n");
-		
 		gameEnd = 1;
 	}
 	return gameEnd;
@@ -76,18 +77,18 @@ int getAction(int turn) {
 void printUserCardStatus(int turn) {
 	int i;
 	printf("  -> card : ");
-	for (i=0; i < cardcnt; i++){
+	for (i=0; i < cardcnt-1; i++){
 		printCard(cardhold[turn][i]);
 		printf(" ");
 	}
-	printf("\t ::: "); 
+	printf("\t ::: \n"); 
 	return;
 }
 
 //card processing functions ---------------
 
 //calculate the actual card number in the blackjack game
-int getCardNum(int cardnum) {
+int getCardNum(int turn, int cardnum) {
 	int num;
 	switch(cardnum % 13){
 		case 1 : 
@@ -125,6 +126,13 @@ void printCard(int cardnum) {
 		case 0 : printf("K"); break;
 	}
 	printf(" ");
+	return;
 }
 
-
+//get one card from the tray
+int pullCard(void) {
+	cardnum = CardTray[cardIndex];
+	cardIndex--;
+	cardcnt++;
+	return cardnum;
+}

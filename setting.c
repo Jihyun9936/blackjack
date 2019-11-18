@@ -7,11 +7,11 @@ int cardIndex;
 int turn;										//turn of the players
 int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players hold
 int CardTray[N_CARD*N_CARDSET];					//
-int bet[N_MAX_USER];								//current betting
+int bet[N_MAX_USER];							//current betting
 int dollar[N_MAX_USER];							//dollars that each player has
 int n_user;										//number of users
-int cardnum;										//the actual number of the card 
-int cardcnt;							//
+int cardnum;									//the actual number of the card 
+int cardcnt;									//number of cards the player has
 
 //player settiing
 int configUser(void) {
@@ -31,7 +31,7 @@ int configUser(void) {
 //betting
 int betDollar(void) {
 	int mybet, i = 0;
-	printf("------------------------BETTING STEP--------------------------\n");
+	printf("\n------------------------BETTING STEP--------------------------\n");
 	printf(" -> your betting (total : $%d): ", dollar[0]);
 	scanf("%d", &mybet);
 	bet[i] = mybet;
@@ -60,13 +60,5 @@ int mixCardTray(void) {
 	}
 	
 	printf("  --> Card is mixed and put into the tray\n");
-	return CardTray;
-}
-
-//get one card from the tray
-int pullCard(void) {
-	cardnum = CardTray[cardIndex];
-	cardIndex--;
-	cardcnt++;
-	return cardnum;
+	return 0;
 }
