@@ -12,24 +12,25 @@ int cardcnt;									//
 
 
 // calculate the card sum and see if : 1. under 21, 2. over 21, 3. blackjack
-int calcStepResult(int turn) {
+int calcStepResult(int turn, int cardcnt) {
 	int temp, j; 
-	int sum = 0;
-	for(j=0; j < cardcnt-1; j++){
-			temp = getCardNum(turn, cardhold[turn][j]);
-			sum += temp;
-	}
-	cardSum[turn] = sum;
 	
-	if (sum > 21){
-		printUserCardStatus(turn);
+	if (cardcnt > 2){
+		temp = getCardNum(turn, cardhold[turn][cardcnt]);
+		cardSum[turn] += temp;
+	}
+	
+	if (cardSum[turn] > 21){
 		printf("DEAD (sum : %d)", cardSum[turn]);
-		printf("  -->  -$%d ($%d)", bet[turn], dollar[turn]-bet[turn]);
+		printf("  -->  -$%d ($%d)\n", bet[turn], dollar[turn]-bet[turn]);
+		return 1;
 	}
-	else if (sum == 21){
+	else if (cardSum[turn] == 21){
 		printf("Blackjack!!!\n");
+		return 1;
 	}
-	return sum;
+	else
+		return 0;
 }
 
 int checkResult() {

@@ -9,23 +9,27 @@ int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players 
 int cardcnt;									//
 int turn;										//turn of the players
 int cardSum[N_MAX_USER];						//sum of the cards
-int gs;											//
 int gameEnd;		 							//game end flag
 int cardnum;									//the actual number of the card 
 
 //offering initial 2 cards
 void offerCards(void) {
-	int i;
+	int i, num1, num2;
 	printf("\n-------------------- Card Offering--------------------\n");
 	//1. give two card for each players
-	for (i=0;i<n_user;i++)
-	{
+	for (i=0; i<n_user; i++){
 		cardhold[i][0] = pullCard();
 		cardhold[i][1] = pullCard();
+		num1 = getCardNum(i, cardhold[i][0]);
+		num2 = getCardNum(i, cardhold[i][1]);
+		cardSum[i] = num1 + num2;
 	}
 	//2. give two card for the operator
 	cardhold[n_user][0] = pullCard();
 	cardhold[n_user][1] = pullCard();
+	num1 = getCardNum(n_user, cardhold[n_user][0]);
+	num2 = getCardNum(n_user, cardhold[n_user][1]);
+	cardSum[n_user] = num1 + num2;
 	
 	return;
 }
@@ -48,6 +52,8 @@ void printCardInitialStatus(void) {
 }
 
 int getAction(int turn) {
+	int gs;
+	
 	if (turn == 0){
 		printf("Action? (0 - go, others - stay) : ");
 		scanf("%d", &gs);
@@ -59,8 +65,9 @@ int getAction(int turn) {
 			gs = 1;
 	}
 	if(gs == 0){
-		printf("::: GO!\n");
 		cardhold[turn][cardcnt] = pullCard();
+		cardcnt++;
+		printf("::: GO!\n");
 		gameEnd = 0;
 	}
 	else {
@@ -89,10 +96,11 @@ int getCardNum(int turn, int cardnum) {
 	int num;
 	switch(cardnum % 13){
 		case 1 : 
-			if (cardSum[turn]+11 > 21) {
-				num = 1; break; }
-			else {
-				num = 11; break; }
+			if (cardSum[turn]+11 > 21) 
+				num = 1;
+			else 
+				num = 11;
+			cardSum[turn] -= 11;  break;
 		case 2 : num = 2; break;
 		case 3 : num = 3; break;
 		case 4 : num = 4; break;
@@ -108,7 +116,7 @@ int getCardNum(int turn, int cardnum) {
 
 //print the card information (e.g. DiaA)
 void printCard(int cardnum) {
-	switch (cardnum / 13){
+	switch ((cardnum / 13)%4){
 		case 0 : printf("HRT"); break;
 		case 1 : printf("DIA"); break;
 		case 2 : printf("SPD"); break;
@@ -130,6 +138,5 @@ void printCard(int cardnum) {
 int pullCard(void) {
 	cardnum = CardTray[cardIndex];
 	cardIndex--;
-	cardcnt++;
 	return cardnum;
 }

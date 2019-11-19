@@ -13,13 +13,11 @@ int gameEnd;									//gameEnd flag
 
 
 int main() {
-	int max_user;
+	int pass;
 	int i = 0;
-	
 
 	//set the number of players
 	configUser();
-
 
 	//Game initialization --------
 	//1. players' dollar
@@ -31,6 +29,9 @@ int main() {
 
 	//Game start --------
 	do {
+		for(i=0; i<=n_user; i++){
+			cardSum[i] = 0;
+		}									//cardSum setting
 		
 		printf("\n----------------Round %d (CardIndex : %d)----------------\n", roundIndex, cardIndex);
 		betDollar();
@@ -45,22 +46,21 @@ int main() {
 			cardcnt = 2;
 			
 			if(turn == 0)
-				printf("\n>>>my turn! -------------------\n");
+				printf("\n>>> my turn! -------------------\n");
 			else if (turn == n_user)
-				printf("\n>>>server turn! ---------------\n");
+				printf("\n>>> server turn! ---------------\n");
 			else
-				printf("\n>>>player %d turn! ------------\n", turn);
+				printf("\n>>> player %d turn! ------------\n", turn);
 			
-			printUserCardStatus(turn);	
 			printf("\n");
 			
-			 while (getAction(turn) == 0){	
-			 		printUserCardStatus(turn); //print current card status
-					calcStepResult(turn); //check the card status ::: 
-					getAction(turn); //GO? STOP? ::: 
-					//check if the turn ends or not
-			} //do until the player dies or player says stop
-			
+			do{		printUserCardStatus(turn); //print current card status
+							//check the card status :::
+					pass = calcStepResult(turn, cardcnt);
+					if (pass == 1)
+						break;
+			} while(getAction(turn) == 0); //do until the player dies or player says stop
+		
 			i++;
 		}
 		printf("\n[[[[[[[[server result is ... %d]]]]]]]]\n", cardSum[n_user]);
