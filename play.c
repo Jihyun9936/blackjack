@@ -10,7 +10,7 @@ int cardcnt;									//the number of cards the player has
 int turn;										//turn of the players
 int cardSum[N_MAX_USER];						//sum of the cards
 int gameEnd;		 							//game end flag
-int cardnum;									//the actual number of the card 
+int cardnum;									//
 
 //offering initial 2 cards
 void offerCards(void) {
@@ -51,7 +51,7 @@ void printCardInitialStatus(void) {
 	return;
 }
 
-int getAction(int turn) {
+int getAction(turn) {
 	int gs;				//player's 
 	
 	if (turn == 0){
@@ -78,7 +78,7 @@ int getAction(int turn) {
 }
 
 // print the cards players have
-void printUserCardStatus(int turn) {
+void printUserCardStatus(turn) {
 	int i;
 	printf("  -> card : ");
 	for (i=0; i < cardcnt; i++){
@@ -92,7 +92,7 @@ void printUserCardStatus(int turn) {
 //card processing functions ---------------
 
 //calculate the actual card number in the blackjack game
-int getCardNum(int turn, int cardnum) {
+int getCardNum(turn, cardnum) {
 	int num;
 	switch(cardnum % 13){
 		case 1 : num = (cardSum[turn]+11 > 21)? 1 : 11; break;
@@ -110,7 +110,7 @@ int getCardNum(int turn, int cardnum) {
 }
 
 //print the card information (e.g. DiaA)
-void printCard(int cardnum) {
+void printCard(cardnum) {
 	switch ((cardnum / 13)%4){
 		case 0 : printf("HRT"); break;
 		case 1 : printf("DIA"); break;

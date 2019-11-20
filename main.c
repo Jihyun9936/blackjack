@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "bj.h"
 
-int cardcnt;									//number of cards players have
+int cardcnt;									//number of cards the player has
 int n_user;										//number of users
 int dollar[N_MAX_USER];							//dollars that each player has
 int turn;										//turn of the players
@@ -13,8 +13,9 @@ int gameEnd;									//gameEnd flag
 
 
 int main() {
-	int pass;
-	int i = 0;
+	int pass;			//
+	int doll = 0; 		//
+	int j, i = 0;
 
 	//set the number of players
 	configUser();
@@ -30,7 +31,7 @@ int main() {
 	//Game start --------
 	do {
 		for(i=0; i<=n_user; i++)
-			cardSum[i] = 0;		//cardSum setting
+			cardSum[i] = 0;				//cardSum setting
 		
 		printf("\n----------------Round %d (CardIndex : %d)----------------\n", roundIndex, cardIndex+1);
 		betDollar();
@@ -42,7 +43,7 @@ int main() {
 		//each player's turn
 		for (turn = 0; turn <= n_user; turn++) //each player
 		{	
-			cardcnt = 2;
+			cardcnt = 2;						//intial num of cards
 			
 			if(turn == 0)
 				printf("\n>>> my turn! -------------------\n");
@@ -53,17 +54,14 @@ int main() {
 			
 			printf("\n");
 			
-			do{		printUserCardStatus(turn); //print current card status
-							//check the card status :::
-					pass = calcStepResult(turn, cardcnt);
-					if (pass == 1)
-						break;
+			do{	printUserCardStatus(turn); //print current card status	//check the card status :::
+				pass = calcStepResult(turn, cardcnt);
+				if (pass == 1)
+					break;
 			} while(getAction(turn) == 0); //do until the player dies or player says stop
-		
-			i++;
 		}
 		printf("\n[[[[[[[[server result is ... %d]]]]]]]]", cardSum[n_user]);
-		if (cardSum[n_user]>21)
+		if (cardSum[n_user] > 21)
 			printf(" --> Overflow!!!\n");
 		else
 			printf("\n");
@@ -71,7 +69,15 @@ int main() {
 		//result
 		checkResult();
 		roundIndex++;
-	} while ((cardIndex > 2*(n_user+1)) && (dollar[i] != 0));
+		for (i=0; i<n_user; i++){
+			if (dollar[i] != 0)
+				continue;
+			else{
+				doll = 1;
+				break;
+			}
+		}
+	} while ((cardIndex > 2*(n_user+1)) && (doll != 1));
 	
 	checkWinner();
 	

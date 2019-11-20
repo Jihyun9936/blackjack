@@ -13,7 +13,7 @@ int cardcnt;									//
 
 
 // calculate the card sum and see if : 1. under 21, 2. over 21, 3. blackjack
-int calcStepResult(int turn, int cardcnt) {
+int calcStepResult(turn, cardcnt) {
 	int temp, j; 
 	
 	if (cardcnt > 2){
@@ -32,7 +32,10 @@ int calcStepResult(int turn, int cardcnt) {
 		return 1;
 	}
 	else if (cardSum[turn] == 21){
-		printf("Blackjack!!!\n");
+			if(turn < n_user){
+			dollar[turn] += 2*bet[turn];
+			printf("Blackjack!!!  -->  +$%d ($%d)\n", 2*bet[turn], dollar[turn]);
+		}
 		return 1;
 	}
 	else
@@ -49,15 +52,14 @@ int checkResult() {
 			printf("\n -> player%d's result : ", i);
 			
 	
-		if (cardSum[i] > 21){
+		if (cardSum[i] > 21)
 			printf("lose due to overflow! ");
-		}
 		else if (cardSum[n_user]>21)
 			printf("win!");
 		else if(cardSum[i] == 21)
 			printf("win!");
 		else if (cardSum[i] < cardSum[n_user]){
-			dollar[i] = dollar[i] - bet[i];
+			dollar[i] -= bet[i];
 			printf("lose!  ");
 		}
 		else 
@@ -78,16 +80,16 @@ int checkWinner() {
 			winner = i;
 		}
 	}
-	printf("\nGame End!(remained cards : %d) Your money : $%d, players' money : ", CardIndex, dollar[0]);
+	printf("\nGame End! Your money : $%d, players' money : ", dollar[0]);
 	for(i=1; i<n_user; i++)
 		printf("$%d  ", dollar[i]);
 	printf("\n\n");
 	
 	if (winner == 0){
-		printf("\nYou win\n");
+		printf("\nYou win!!!\n");
 	}
 	else {
-		printf("\nplayer %d's win\n", winner);
+		printf("\nplayer %d's win!!!\n", winner);
 	}
 	return winner;
 }
