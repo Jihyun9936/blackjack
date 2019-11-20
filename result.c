@@ -22,19 +22,18 @@ int calcStepResult(turn, cardcnt) {
 	}
 	
 	if (cardSum[turn] > 21){
-		printf("DEAD (sum : %d)", cardSum[turn]);
 		if(turn < n_user){
+			printf("DEAD (sum : %d)", cardSum[turn]);
 			dollar[turn] -= bet[turn];
 			printf("  -->  -$%d ($%d)\n", bet[turn], dollar[turn]);
 		}
-		else if (turn == n_user)
-			;
 		return 1;
 	}
 	else if (cardSum[turn] == 21){
-			if(turn < n_user){
+			printf("::: Blackjack!!!");
+			if (turn < n_user){
 			dollar[turn] += 2*bet[turn];
-			printf("Blackjack!!!  -->  +$%d ($%d)\n", 2*bet[turn], dollar[turn]);
+			printf(" -->  +$%d ($%d)\n", 2*bet[turn], dollar[turn]);
 		}
 		return 1;
 	}
@@ -54,16 +53,21 @@ int checkResult() {
 	
 		if (cardSum[i] > 21)
 			printf("lose due to overflow! ");
-		else if (cardSum[n_user]>21)
+		else if(cardSum[i] == 21){
 			printf("win!");
-		else if(cardSum[i] == 21)
+		}
+		else if (cardSum[n_user] > 21){
+			dollar[i] = dollar[i] + bet[i];
 			printf("win!");
+	}
 		else if (cardSum[i] < cardSum[n_user]){
-			dollar[i] -= bet[i];
+			dollar[i] = dollar[i] - bet[i];
 			printf("lose!  ");
 		}
-		else 
+		else {
+			dollar[i] = dollar[i] + bet[i];
 			printf("win! ");
+		}
 			
 		if (dollar[i] < 0)
 			dollar[i] = 0;

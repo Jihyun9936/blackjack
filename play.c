@@ -6,7 +6,7 @@ int cardIndex;
 int CardTray[N_CARD*N_CARDSET];					//
 int n_user;										//number of users 
 int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players hold
-int cardcnt;									//the number of cards the player has
+extern int cardcnt;									//the number of cards the player has
 int turn;										//turn of the players
 int cardSum[N_MAX_USER];						//sum of the cards
 int gameEnd;		 							//game end flag

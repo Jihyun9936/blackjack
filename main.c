@@ -23,7 +23,7 @@ int main() {
 	//Game initialization --------
 	//1. players' dollar
 	for(i=0; i < n_user; i++)
-		dollar[i] = 50;
+		dollar[i] = N_DOLLAR;
 		
 	//2. card tray
 	mixCardTray();
