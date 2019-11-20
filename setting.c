@@ -34,7 +34,7 @@ int betDollar(void) {
 	printf("\n------------------------BETTING STEP--------------------------\n");
 	printf(" -> your betting (total : $%d): ", dollar[0]);
 	scanf("%d", &mybet);
-	bet[i] = mybet;
+	bet[0] = mybet;
 	srand((unsigned int)time(NULL));
 	for(i=1; i < n_user; i++){
 		bet[i] = (rand()%5)+1;

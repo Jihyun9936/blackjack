@@ -17,15 +17,18 @@ int calcStepResult(int turn, int cardcnt) {
 	int temp, j; 
 	
 	if (cardcnt > 2){
-		temp = getCardNum(turn, cardhold[turn][cardcnt]);
+		temp = getCardNum(turn, cardhold[turn][cardcnt-1]);
 		cardSum[turn] += temp;
 	}
 	
 	if (cardSum[turn] > 21){
 		printf("DEAD (sum : %d)", cardSum[turn]);
-		if(turn < n_user)
-			printf("  -->  -$%d ($%d)\n", bet[turn], dollar[turn]-bet[turn]);
+		if(turn < n_user){
+			dollar[turn] -= bet[turn];
+			printf("  -->  -$%d ($%d)\n", bet[turn], dollar[turn]);
+		}
 		else if (turn == n_user)
+			;
 		return 1;
 	}
 	else if (cardSum[turn] == 21){
@@ -48,7 +51,6 @@ int checkResult() {
 	
 		if (cardSum[i] > 21){
 			printf("lose due to overflow! ");
-			dollar[i] = dollar[i] - bet[i];
 		}
 		else if (cardSum[n_user]>21)
 			printf("win!");

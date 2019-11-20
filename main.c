@@ -6,7 +6,7 @@ int cardcnt;									//number of cards players have
 int n_user;										//number of users
 int dollar[N_MAX_USER];							//dollars that each player has
 int turn;										//turn of the players
-int cardIndex = N_CARD*N_CARDSET;
+int cardIndex = N_CARD*N_CARDSET-1;
 int roundIndex = 1;	
 int cardSum[N_MAX_USER];						//sum of the cards
 int gameEnd;									//gameEnd flag
@@ -32,7 +32,7 @@ int main() {
 		for(i=0; i<=n_user; i++)
 			cardSum[i] = 0;		//cardSum setting
 		
-		printf("\n----------------Round %d (CardIndex : %d)----------------\n", roundIndex, cardIndex);
+		printf("\n----------------Round %d (CardIndex : %d)----------------\n", roundIndex, cardIndex+1);
 		betDollar();
 		offerCards(); //1. give cards to all the players
 		
