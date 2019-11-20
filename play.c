@@ -6,7 +6,7 @@ int cardIndex;
 int CardTray[N_CARD*N_CARDSET];					//
 int n_user;										//number of users 
 int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players hold
-int cardcnt;									//
+int cardcnt;									//the number of cards the player has
 int turn;										//turn of the players
 int cardSum[N_MAX_USER];						//sum of the cards
 int gameEnd;		 							//game end flag
@@ -52,7 +52,7 @@ void printCardInitialStatus(void) {
 }
 
 int getAction(int turn) {
-	int gs;
+	int gs;				//player's 
 	
 	if (turn == 0){
 		printf("Action? (0 - go, others - stay) : ");
@@ -95,12 +95,7 @@ void printUserCardStatus(int turn) {
 int getCardNum(int turn, int cardnum) {
 	int num;
 	switch(cardnum % 13){
-		case 1 : 
-			if (cardSum[turn]+11 > 21) 
-				num = 1;
-			else 
-				num = 11;
-			cardSum[turn] -= 11;  break;
+		case 1 : num = (cardSum[turn]+11 > 21)? 1 : 11; break;
 		case 2 : num = 2; break;
 		case 3 : num = 3; break;
 		case 4 : num = 4; break;
@@ -109,7 +104,7 @@ int getCardNum(int turn, int cardnum) {
 		case 7 : num = 7; break;
 		case 8 : num = 8; break;
 		case 9 : num = 9; break;
-		default : num = 10;
+		default : num = 10; break;
 	}
 	return num;
 }

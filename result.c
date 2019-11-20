@@ -6,6 +6,7 @@ int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players 
 int cardSum[N_MAX_USER];						//sum of the cards
 int n_user;										//number of users
 int roundIndex;									//
+int CardIndex;
 int bet[N_MAX_USER];							//current betting 
 int dollar[N_MAX_USER];							//dollars that each player has
 int cardcnt;									//
@@ -22,7 +23,9 @@ int calcStepResult(int turn, int cardcnt) {
 	
 	if (cardSum[turn] > 21){
 		printf("DEAD (sum : %d)", cardSum[turn]);
-		printf("  -->  -$%d ($%d)\n", bet[turn], dollar[turn]-bet[turn]);
+		if(turn < n_user)
+			printf("  -->  -$%d ($%d)\n", bet[turn], dollar[turn]-bet[turn]);
+		else if (turn == n_user)
 		return 1;
 	}
 	else if (cardSum[turn] == 21){
@@ -42,12 +45,17 @@ int checkResult() {
 		else
 			printf("\n -> player%d's result : ", i);
 			
+	
 		if (cardSum[i] > 21){
 			printf("lose due to overflow! ");
-			dollar[i] -= bet[i];
+			dollar[i] = dollar[i] - bet[i];
 		}
+		else if (cardSum[n_user]>21)
+			printf("win!");
+		else if(cardSum[i] == 21)
+			printf("win!");
 		else if (cardSum[i] < cardSum[n_user]){
-			dollar[i] -= bet[i];
+			dollar[i] = dollar[i] - bet[i];
 			printf("lose!  ");
 		}
 		else 
@@ -62,15 +70,15 @@ int checkResult() {
 
 int checkWinner() {
 	int i, max = -100, winner;
-	for (i=0; i <= n_user; i++){
-		if (max < cardSum[i]){
-			max = cardSum[i];
+	for (i=0; i < n_user; i++){
+		if (max < dollar[i]){
+			max = dollar[i];
 			winner = i;
 		}
 	}
-	printf("\nGame End! Your money : $%d, players' money : ", dollar[0]);
+	printf("\nGame End!(remained cards : %d) Your money : $%d, players' money : ", CardIndex, dollar[0]);
 	for(i=1; i<n_user; i++)
-		printf("$%d", dollar[i]);
+		printf("$%d  ", dollar[i]);
 	printf("\n\n");
 	
 	if (winner == 0){

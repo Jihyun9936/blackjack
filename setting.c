@@ -45,18 +45,17 @@ int betDollar(void) {
 
 //mix the card sets and put in the array 			use pointer
 int mixCardTray(void) {
-	int i, j, temp, num1, num2;
+	int i, j, temp, num;
 	
 	for(i=0; i<(N_CARDSET*N_CARD); i++){
 		CardTray[i] = i;
 	}
 	srand((unsigned int)time(NULL));
 	for(j=0; j<(N_CARDSET*N_CARD); j++){
-		num1 = rand()%(N_CARDSET*N_CARD);
-		num2 = rand()%(N_CARDSET*N_CARD);
-		temp = CardTray[num1];
-		CardTray[num1] = CardTray[num2];
-		CardTray[num2] = temp;
+		num = rand()%(N_CARDSET*N_CARD-j)+j;
+		temp = CardTray[j];
+		CardTray[j] = CardTray[num];
+		CardTray[num] = temp;
 	}
 	
 	printf("  --> Card is mixed and put into the tray\n");

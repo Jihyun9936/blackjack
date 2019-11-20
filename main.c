@@ -29,9 +29,8 @@ int main() {
 
 	//Game start --------
 	do {
-		for(i=0; i<=n_user; i++){
-			cardSum[i] = 0;
-		}									//cardSum setting
+		for(i=0; i<=n_user; i++)
+			cardSum[i] = 0;		//cardSum setting
 		
 		printf("\n----------------Round %d (CardIndex : %d)----------------\n", roundIndex, cardIndex);
 		betDollar();
@@ -63,12 +62,16 @@ int main() {
 		
 			i++;
 		}
-		printf("\n[[[[[[[[server result is ... %d]]]]]]]]\n", cardSum[n_user]);
+		printf("\n[[[[[[[[server result is ... %d]]]]]]]]", cardSum[n_user]);
+		if (cardSum[n_user]>21)
+			printf(" --> Overflow!!!\n");
+		else
+			printf("\n");
 		
 		//result
 		checkResult();
 		roundIndex++;
-	} while ((cardIndex >= 0) && (cardSum[i] == 0));
+	} while ((cardIndex > 2*(n_user+1)) && (dollar[i] != 0));
 	
 	checkWinner();
 	
