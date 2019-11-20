@@ -57,15 +57,15 @@ int checkResult() {
 			printf("win!");
 		}
 		else if (cardSum[n_user] > 21){
-			dollar[i] = dollar[i] + bet[i];
+			dollar[i] += bet[i];
 			printf("win!");
 	}
 		else if (cardSum[i] < cardSum[n_user]){
-			dollar[i] = dollar[i] - bet[i];
+			dollar[i] -= bet[i];
 			printf("lose!  ");
 		}
 		else {
-			dollar[i] = dollar[i] + bet[i];
+			dollar[i] += bet[i];
 			printf("win! ");
 		}
 			
