@@ -6,11 +6,10 @@ int cardIndex;
 int CardTray[N_CARD*N_CARDSET];					//
 int n_user;										//number of users 
 int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players hold
-extern int cardcnt;									//the number of cards the player has
-int turn;										//turn of the players
-int cardSum[N_MAX_USER];						//sum of the cards
+int cardSum[N_MAX_USER+1];						//sum of the cards
 int gameEnd;		 							//game end flag
 int cardnum;									//
+int cardcnt;
 
 //offering initial 2 cards
 void offerCards(void) {
@@ -38,21 +37,21 @@ void offerCards(void) {
 void printCardInitialStatus(void) {
 	int i, j;
 	printf("\n--> server : X ");
-	printCard(cardhold[n_user][1]);
+	printCard(cardhold[n_user][1]);				//print the server's initial cards
 	printf("\n--> you    : ");
 	for (i=0; i<2; i++)
-		printCard(cardhold[0][i]);
+		printCard(cardhold[0][i]);				//print the my initial cards
 	for(i=1; i < n_user; i++){
 		printf("\n--> player%d : ", i);
 		for (j=0; j<2; j++)
-			printCard(cardhold[i][j]);
+			printCard(cardhold[i][j]);			//print the players' initial cards
 		printf("\n");
 	}
 	return;
 }
 
-int getAction(turn) {
-	int gs;				//player's 
+int getAction(int turn) {
+	int gs;			//player's response
 	
 	if (turn == 0){
 		printf("Action? (0 - go, others - stay) : ");
@@ -78,7 +77,7 @@ int getAction(turn) {
 }
 
 // print the cards players have
-void printUserCardStatus(turn) {
+void printUserCardStatus(int turn) {
 	int i;
 	printf("  -> card : ");
 	for (i=0; i < cardcnt; i++){
@@ -92,7 +91,7 @@ void printUserCardStatus(turn) {
 //card processing functions ---------------
 
 //calculate the actual card number in the blackjack game
-int getCardNum(turn, cardnum) {
+int getCardNum(int turn, int cardnum) {
 	int num;
 	switch(cardnum % 13){
 		case 1 : num = (cardSum[turn]+11 > 21)? 1 : 11; break;
@@ -110,7 +109,7 @@ int getCardNum(turn, cardnum) {
 }
 
 //print the card information (e.g. DiaA)
-void printCard(cardnum) {
+void printCard(int cardnum) {
 	switch ((cardnum / 13)%4){
 		case 0 : printf("HRT"); break;
 		case 1 : printf("DIA"); break;

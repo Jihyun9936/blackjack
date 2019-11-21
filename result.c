@@ -3,17 +3,16 @@
 #include "bj.h"
 
 int cardhold[N_MAX_USER+1][N_MAX_CARDHOLD];		//cards that currently the players hold
-int cardSum[N_MAX_USER];						//sum of the cards
+int cardSum[N_MAX_USER+1];						//sum of the cards
 int n_user;										//number of users
-int roundIndex;									//
-int CardIndex;
+int roundIndex;									//Index of round
+int CardIndex;									//Index of the card 
 int bet[N_MAX_USER];							//current betting 
 int dollar[N_MAX_USER];							//dollars that each player has
-int cardcnt;									//
 
 
 // calculate the card sum and see if : 1. under 21, 2. over 21, 3. blackjack
-int calcStepResult(turn, cardcnt) {
+int calcStepResult(int turn, int cardcnt) {
 	int temp, j; 
 	
 	if (cardcnt > 2){
@@ -74,6 +73,7 @@ int checkResult() {
 			
 		printf("(sum : %d) --> $%d\n", cardSum[i], dollar[i]);
 	}
+	printf("-----------------------------------------------------------------\n");
 }
 
 int checkWinner() {
@@ -84,7 +84,7 @@ int checkWinner() {
 			winner = i;
 		}
 	}
-	printf("\nGame End! Your money : $%d, players' money : ", dollar[0]);
+	printf("\nGame End! Your money : $%d, players' money : ", dollar[0]);			//print the dollars left
 	for(i=1; i<n_user; i++)
 		printf("$%d  ", dollar[i]);
 	printf("\n\n");
@@ -93,7 +93,7 @@ int checkWinner() {
 		printf("\nYou win!!!\n");
 	}
 	else {
-		printf("\nplayer %d's win!!!\n", winner);
+		printf("\nplayer %d's win!!!\n", winner);			//print the winner
 	}
 	return winner;
 }
